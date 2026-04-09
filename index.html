@@ -1042,7 +1042,8 @@
 
       const texture = new THREE.CanvasTexture(canvas);
       texture.magFilter = THREE.NearestFilter;
-      texture.minFilter = THREE.NearestMipMapNearestFilter;
+      texture.minFilter = THREE.NearestFilter;
+      texture.generateMipmaps = false;
       texture.wrapS = THREE.ClampToEdgeWrapping;
       texture.wrapT = THREE.ClampToEdgeWrapping;
       texture.colorSpace = THREE.SRGBColorSpace;
@@ -1933,11 +1934,12 @@
       const layout = buildTextureAtlas.layout[tileName];
       const cols = buildTextureAtlas.cols;
       const rows = buildTextureAtlas.rows;
+      const inset = 0.02;
       return {
-        u0: layout[0] / cols,
-        v0: layout[1] / rows,
-        u1: (layout[0] + 1) / cols,
-        v1: (layout[1] + 1) / rows,
+        u0: (layout[0] + inset) / cols,
+        v0: 1 - ((layout[1] + 1 - inset) / rows),
+        u1: (layout[0] + 1 - inset) / cols,
+        v1: 1 - ((layout[1] + inset) / rows),
       };
     }
 
